@@ -184,12 +184,12 @@ void dynarr_trim(dyn_array *d) {
 
 /* Pops from array */
 void dynarr_pop(dyn_array *d) {
-	dynarr_rmt(d, 0);
+	dynarr_rmt(d, d->length - 1);
 }
 
 /* De-queue from array */
 void dynarr_dequeue(dyn_array *d) {
-	dynarr_rmt(d, d->length - 1);
+	dynarr_rmt(d, 0);
 }
 
 /* Removes n elements from index i
