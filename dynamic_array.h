@@ -7,92 +7,89 @@
 
 /* -------------------------------------------------------------------------- */
 
-// TODO: first and last pointers / indices
-
-/* Struct definition */
-typedef struct dynamic_array_t {
-	/* size   - total size
-	   length - used size
-	   first  - first useful 
-	   last   - last useful  */
+/* Dynamic array struct */
+typedef struct dynamic_array {
+	size_t capacity;
 	size_t size;
-	size_t length;
+	size_t max_size;
 	dynarr_t *first;
 	dynarr_t *last;
-	/* data array */
 	dynarr_t *data;
 } dyn_array;
 
-/* -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+ * dynarr_new()   - create dynamic array with size 1
+ *
+ * dynarr_new_n() - create dynamic array with size N
+ *
+ * dynarr_free()  - free resources used by the array
+ *
+ *
+ * dynarr_capacity() - array capacity
+ *
+ * dynarr_size()     - number of elements in array
+ *
+ * dynarr_first()    - pointer to first element
+ *
+ * dynarr_last()     - pointer to last element
+ *
+ *
+ * dynarr_get() - get element from index
+ *
+ * dynarr_set() - set value to index
+ *
+ *
+ * dynarr_push()    - appends an element to the end
+ *
+ * dynarr_enqueue() - same as dynarr_push
+ *
+ * dynarr_append()  - append buffer to the end
+ *
+ * dynarr_trim()    - resizes array to fit number of elements
+ *
+ *
+ * dynarr_pop()     - remove last element
+ *
+ * dynarr_dequeue() - remove first element
+ *
+ *
+ * dynarr_rm_n()  - remove n elements starting at index
+ *                  trims array when size is half capacity
+ *
+ * dynarr_rm()    - remove element from index
+ *                  trims array when size is half capacity
+ *
+ * dynarr_rmt_n() - remove n elements starting at index
+ *                  always trims array after removal
+ *
+ * dynarr_rmt()   - remove n elements starting at index
+ *                  always trims array after removal
+ * -------------------------------------------------------------------------- */
 
-/* Creates a new dynamic array with size 1 */
-dyn_array *dynarr_new();
-
-/* Creates a new dynamic array with size sz */
+dyn_array *dynarr_new  ();
 dyn_array *dynarr_new_n(size_t sz);
+void       dynarr_free (dyn_array *d);
 
-/* Frees dynamic array */
-void dynarr_free(dyn_array *d);
+size_t   dynarr_capacity(const dyn_array *d);
+size_t   dynarr_size    (const dyn_array *d);
+dynarr_t dynarr_first   (const dyn_array *d);
+dynarr_t dynarr_last    (const dyn_array *d);
 
-/* -------------------------------------------------------------------------- */
-
-/* Returns array size (used and unused length) */
-size_t dynarr_size(const dyn_array *d);
-
-/* Returns array used length */
-size_t dynarr_length(const dyn_array *d);
-
-/* Returns first useful element from array */
-dynarr_t dynarr_first(const dyn_array *d);
-
-/* Returns last useful element from array */
-dynarr_t dynarr_last(const dyn_array *d);
-
-/* -------------------------------------------------------------------------- */
-
-/* Returns element with index i from array */
 dynarr_t dynarr_get(const dyn_array *d, int i);
+void     dynarr_set(dyn_array *d, int i, dynarr_t val);
 
-/* Sets a value to valid index */
-void dynarr_set(dyn_array *d, int i, dynarr_t val);
-
-/* -------------------------------------------------------------------------- */
-
-/* Pushes a value to the end of the array */
-void dynarr_push(dyn_array *dest, dynarr_t val);
-
-/* Enqueues a value to the array
-   Same as dynarr_push */
+void dynarr_push   (dyn_array *dest, dynarr_t val);
 void dynarr_enqueue(dyn_array *dest, dynarr_t val);
+void dynarr_append (dyn_array *dest, const dynarr_t *src, size_t buffsz);
+void dynarr_trim   (dyn_array *dest);
 
-/* Appends buffer to array */
-void dynarr_append(dyn_array *dest, const dynarr_t *src, size_t buffsz);
-
-/* Trims array to useful size */
-void dynarr_trim(dyn_array *dest);
-
-/* -------------------------------------------------------------------------- */
-
-/* Pops from array */
-void dynarr_pop(dyn_array *d);
-
-/* De-queue from array */
+void dynarr_pop    (dyn_array *d);
 void dynarr_dequeue(dyn_array *d);
 
-/* Removes n elements from index i
-   Auto trims array when new length << size */
-void dynarr_rm_n(dyn_array *d, int i, int n);
-
-/* Removes element from index
-   Auto trims array when new length << size */
-void dynarr_rm(dyn_array *d, int i);
-
-/* Removes n elements from index i
-   Always trims result */
+void dynarr_rm_n (dyn_array *d, int i, int n);
+void dynarr_rm   (dyn_array *d, int i);
 void dynarr_rmt_n(dyn_array *d, int f, int l);
-
-/* Removes element from index and trims result */
-void dynarr_rmt(dyn_array *d, int i);
+void dynarr_rmt  (dyn_array *d, int i);
 
 
 #endif
