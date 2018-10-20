@@ -9,10 +9,10 @@
 
 /* Value by which to multiply array capacity when full */
 #define MULT 2
+#define MAX_SIZE 1073741823
 
 /* -------------------------------------------------------------------------- */
 
-/* Creates a new dynamic array with capacity sz */
 dyn_array *dynarr_new_n(size_t sz) {
 	dyn_array *arr;
 	/* alloc space */
@@ -27,12 +27,10 @@ dyn_array *dynarr_new_n(size_t sz) {
 	return arr;
 }
 
-/* Creates a new dynamic array with capacity 1 */
 dyn_array *dynarr_new() {
 	return dynarr_new_n(1);
 }
 
-/* Frees dynamic array */
 void dynarr_free(dyn_array *a) {
 	if (a != NULL) {
 		free(a->data);
@@ -42,29 +40,24 @@ void dynarr_free(dyn_array *a) {
 
 /* -------------------------------------------------------------------------- */
 
-/* Returns array capacity (used and unused size) */
 size_t dynarr_capacity(const dyn_array *d) {
 	return d->capacity;
 }
 
-/* Returns array used size */
 size_t dynarr_size(const dyn_array *d) {
 	return d->size;
 }
 
-/* Returns first useful element from array */
 dynarr_t dynarr_first(const dyn_array *d) {
 	return *(d->first);
 }
 
-/* Returns last useful element from array */
 dynarr_t dynarr_last(const dyn_array *d) {
 	return *(d->last);
 }
 
 /* -------------------------------------------------------------------------- */
 
-/* Returns element with index i from array */
 dynarr_t dynarr_get(const dyn_array *d, int i) {
 	if (i >= 0 && i < d->size)
 		return d->data[i];
@@ -72,7 +65,6 @@ dynarr_t dynarr_get(const dyn_array *d, int i) {
 	exit(EXIT_FAILURE);
 }
 
-/* Sets a value to valid index */
 void dynarr_set(dyn_array *d, int i, dynarr_t val) {
 	if (i < d->size && i > 0)
 		d->data[i] = val;
@@ -84,7 +76,6 @@ void dynarr_set(dyn_array *d, int i, dynarr_t val) {
 
 /* -------------------------------------------------------------------------- */
 
-/* Pushes a value to the end of the array */
 void dynarr_push(dyn_array *dest, dynarr_t val) {
 	/* If there's still space for insertion */
 	if (dest->size < dest->capacity)
@@ -112,13 +103,10 @@ void dynarr_push(dyn_array *dest, dynarr_t val) {
 	dest->size += 1;
 }
 
-/* Enqueues a value to the array
-   Same as dynarr_push */
 void dynarr_enqueue(dyn_array *dest, dynarr_t val) {
 	dynarr_push(dest, val);
 }
 
-/* Appends buffer to array */
 void dynarr_append(dyn_array *dest, const dynarr_t *src, size_t buffsz) {
 	/* check if there is enough space */
 	if (dest->capacity - dest->size >= buffsz) {
@@ -158,7 +146,6 @@ void dynarr_append(dyn_array *dest, const dynarr_t *src, size_t buffsz) {
 	dest->size += buffsz;
 }
 
-/* Trims array to useful capacity */
 void dynarr_trim(dyn_array *d) {
 	/* if not full */
 	if (d->size < d->capacity) {
@@ -182,18 +169,14 @@ void dynarr_trim(dyn_array *d) {
 
 /* -------------------------------------------------------------------------- */
 
-/* Pops from array */
 void dynarr_pop(dyn_array *d) {
 	dynarr_rmt(d, d->size - 1);
 }
 
-/* De-queue from array */
 void dynarr_dequeue(dyn_array *d) {
 	dynarr_rmt(d, 0);
 }
 
-/* Removes n elements from index i
-   Auto trims array when new size << capacity */
 void dynarr_rm_n(dyn_array *d, int i, int n) {
 
 	/* no removal needed */
@@ -221,13 +204,10 @@ void dynarr_rm_n(dyn_array *d, int i, int n) {
 	}
 }
 
-/* Removes element from index
-   Auto trims array when new size << capacity */
 void dynarr_rm(dyn_array *d, int i) {
 	dynarr_rm_n(d, i, 1);
 }
 
-/* Removes element from index and trims result */
 void dynarr_rmt_n(dyn_array *d, int i, int n) {
 
 	/* no removal needed */
@@ -254,7 +234,6 @@ void dynarr_rmt_n(dyn_array *d, int i, int n) {
 	}
 }
 
-/* Removes element from index and trims result */
 void dynarr_rmt(dyn_array *d, int i) {
 	dynarr_rmt_n(d, i, 1);
 }
