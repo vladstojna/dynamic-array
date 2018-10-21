@@ -34,7 +34,7 @@ static int __da_shift_right(dyn_array *d, int start, int amount);
 
 /* -------------------------------------------------------------------------- */
 
-int __da_reserve(dyn_array *d, size_t new_size) {
+inline int __da_reserve(dyn_array *d, size_t new_size) {
 	dynarr_t *data_new = (dynarr_t*) realloc((dynarr_t*) d->data, sizeof(dynarr_t)*new_size);
 
 	if (data_new == NULL) {
@@ -50,7 +50,7 @@ int __da_reserve(dyn_array *d, size_t new_size) {
 	return EXIT_SUCCESS;
 }
 
-int __da_memcpy(dyn_array *d, int i, const dynarr_t *src, size_t buffsz) {
+inline int __da_memcpy(dyn_array *d, int i, const dynarr_t *src, size_t buffsz) {
 	if (memcpy(&d->data[i], src, sizeof(dynarr_t) * buffsz) == NULL) {
 		dynarr_free(d);
 		fprintf(stderr, "__da_memcpy: memcpy error\n");
@@ -59,7 +59,7 @@ int __da_memcpy(dyn_array *d, int i, const dynarr_t *src, size_t buffsz) {
 	return EXIT_SUCCESS;
 }
 
-int __da_shift_left(dyn_array *d, int start, int amount) {
+inline int __da_shift_left(dyn_array *d, int start, int amount) {
 	memmove(&d->data[start],
 		&d->data[start+amount],
 		sizeof(dynarr_t) * (d->size - (start + amount)));
@@ -67,7 +67,7 @@ int __da_shift_left(dyn_array *d, int start, int amount) {
 	return EXIT_SUCCESS;
 }
 
-int __da_shift_right(dyn_array *d, int start, int amount) {
+inline int __da_shift_right(dyn_array *d, int start, int amount) {
 	memmove(&d->data[start+amount],
 		&d->data[start],
 		sizeof(dynarr_t) * (d->size - start));
