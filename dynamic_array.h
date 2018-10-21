@@ -41,6 +41,8 @@ typedef struct dynamic_array {
  *
  * dynarr_push()    - appends an element to the end
  *
+ * dynarr_insert()  - inserts an element to index
+ *
  * dynarr_enqueue() - same as dynarr_push
  *
  * dynarr_append()  - append buffer to the end
@@ -79,6 +81,7 @@ dynarr_t dynarr_get(const dyn_array *d, int i);
 void     dynarr_set(dyn_array *d, int i, dynarr_t val);
 
 void dynarr_push   (dyn_array *dest, dynarr_t val);
+void dynarr_insert (dyn_array *dest, int i, dynarr_t val);
 void dynarr_enqueue(dyn_array *dest, dynarr_t val);
 void dynarr_append (dyn_array *dest, const dynarr_t *src, size_t buffsz);
 void dynarr_trim   (dyn_array *dest);
@@ -88,8 +91,6 @@ void dynarr_dequeue(dyn_array *d);
 
 void dynarr_rm_n (dyn_array *d, int i, int n);
 void dynarr_rm   (dyn_array *d, int i);
-void dynarr_rmt_n(dyn_array *d, int f, int l);
-void dynarr_rmt  (dyn_array *d, int i);
 
 
 #endif
