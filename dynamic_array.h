@@ -73,18 +73,18 @@ da_data da_last    (const dynamic_array *d);
 da_data da_get(const dynamic_array *d, int i);
 void    da_set(dynamic_array *d, int i, da_data val);
 
-void da_push_back (dynamic_array *d, da_data val);
-void da_push_front(dynamic_array *d, da_data val);
+void    da_push_back (dynamic_array *d, da_data val);
+void    da_push_front(dynamic_array *d, da_data val);
 da_data da_pop_back  (dynamic_array *d);
 da_data da_pop_front (dynamic_array *d);
 
-void da_insert (dynamic_array *d, int i, da_data val);
-void da_append (dynamic_array *dest, const da_data *src, size_t buffsz);
+void da_insert(dynamic_array *d, int i, da_data val);
+void da_append(dynamic_array *dest, const da_data *src, size_t buffsz);
 
-void da_rm_n (dynamic_array *d, int i, int n);
-void da_rm   (dynamic_array *d, int i);
+void da_rm_n(dynamic_array *d, int i, int n);
+void da_rm  (dynamic_array *d, int i);
 
-void da_trim (dynamic_array *d);
+void da_trim(dynamic_array *d);
 
 
 #endif
