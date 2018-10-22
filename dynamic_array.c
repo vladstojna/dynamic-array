@@ -169,7 +169,7 @@ da_data da_pop_front(dynamic_array *d) {
 }
 
 void da_insert(dynamic_array *d, int i, da_data val) {
-	if (i >= 0 && i < d->size) {
+	if (i >= 0 && i <= d->size) {
 		/* If there's still space for insertion */
 		if (d->size == d->capacity)
 			__da_reserve(d, MULT * d->capacity);
