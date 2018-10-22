@@ -3,94 +3,88 @@
 #ifndef __DYNAMIC_ARRAY_H__
 #define __DYNAMIC_ARRAY_H__
 
-#include "dynarr_t.h"
+/* Data type the array will hold */
+typedef char da_data;
 
 /* -------------------------------------------------------------------------- */
 
 /* Dynamic array struct */
-typedef struct dynamic_array {
+typedef struct {
 	size_t capacity;
 	size_t size;
-	size_t max_size;
-	dynarr_t *first;
-	dynarr_t *last;
-	dynarr_t *data;
-} dyn_array;
+	da_data *data;
+} dynamic_array;
 
 /* --------------------------------------------------------------------------
- * dynarr_new()   - create dynamic array with size 1
+ * da_new()   - create dynamic array with size 1
  *
- * dynarr_new_n() - create dynamic array with size N
+ * da_new_n() - create dynamic array with size N
  *
- * dynarr_free()  - free resources used by the array
- *
- *
- * dynarr_capacity() - array capacity
- *
- * dynarr_size()     - number of elements in array
- *
- * dynarr_first()    - pointer to first element
- *
- * dynarr_last()     - pointer to last element
+ * da_free()  - free resources used by the array
  *
  *
- * dynarr_get() - get element from index
+ * da_capacity() - array capacity
  *
- * dynarr_set() - set value to index
+ * da_size()     - number of elements in array
  *
+ * da_first()    - first element
  *
- * dynarr_push()    - appends an element to the end
- *
- * dynarr_insert()  - inserts an element to index
- *
- * dynarr_enqueue() - same as dynarr_push
- *
- * dynarr_append()  - append buffer to the end
- *
- * dynarr_trim()    - resizes array to fit number of elements
+ * da_last()     - last element
  *
  *
- * dynarr_pop()     - remove last element
+ * da_get() - get element from index
  *
- * dynarr_dequeue() - remove first element
+ * da_set() - set value to index
  *
  *
- * dynarr_rm_n()  - remove n elements starting at index
- *                  trims array when size is half capacity
+ * da_push_back()  - appends an element to the end
  *
- * dynarr_rm()    - remove element from index
- *                  trims array when size is half capacity
+ * da_push_front() - appends an element to the start
  *
- * dynarr_rmt_n() - remove n elements starting at index
- *                  always trims array after removal
+ * da_pop_back()   - removes and returns last element
  *
- * dynarr_rmt()   - remove n elements starting at index
- *                  always trims array after removal
+ * da_pop_front()  - removes and returns first element
+ *
+ *
+ * da_insert()  - inserts an element to index
+ *
+ * da_append()  - append buffer to the end
+ *
+ *
+ * da_rm_n() - remove n elements starting at index
+ *             does not realloc array
+ *
+ * da_rm()   - remove element from index
+ *             does not realloc array
+ *
+ * da_trim() - reallocs array so that capacity equals size
+ *
  * -------------------------------------------------------------------------- */
 
-dyn_array *dynarr_new  ();
-dyn_array *dynarr_new_n(size_t sz);
-void       dynarr_free (dyn_array *d);
+dynamic_array *da_new  ();
+dynamic_array *da_new_n(size_t sz);
+void           da_free (dynamic_array *d);
 
-size_t   dynarr_capacity(const dyn_array *d);
-size_t   dynarr_size    (const dyn_array *d);
-dynarr_t dynarr_first   (const dyn_array *d);
-dynarr_t dynarr_last    (const dyn_array *d);
+size_t  da_capacity(const dynamic_array *d);
+size_t  da_size    (const dynamic_array *d);
+da_data da_first   (const dynamic_array *d);
+da_data da_last    (const dynamic_array *d);
 
-dynarr_t dynarr_get(const dyn_array *d, int i);
-void     dynarr_set(dyn_array *d, int i, dynarr_t val);
+da_data da_get(const dynamic_array *d, int i);
+void    da_set(dynamic_array *d, int i, da_data val);
 
-void dynarr_push   (dyn_array *dest, dynarr_t val);
-void dynarr_insert (dyn_array *dest, int i, dynarr_t val);
-void dynarr_enqueue(dyn_array *dest, dynarr_t val);
-void dynarr_append (dyn_array *dest, const dynarr_t *src, size_t buffsz);
-void dynarr_trim   (dyn_array *dest);
+void da_push_back (dynamic_array *d, da_data val);
+void da_push_front(dynamic_array *d, da_data val);
+da_data da_pop_back  (dynamic_array *d);
+da_data da_pop_front (dynamic_array *d);
 
-void dynarr_pop    (dyn_array *d);
-void dynarr_dequeue(dyn_array *d);
+void da_insert (dynamic_array *d, int i, da_data val);
+void da_append (dynamic_array *dest, const da_data *src, size_t buffsz);
 
-void dynarr_rm_n (dyn_array *d, int i, int n);
-void dynarr_rm   (dyn_array *d, int i);
+void da_rm_n (dynamic_array *d, int i, int n);
+void da_rm   (dynamic_array *d, int i);
+
+void da_trim (dynamic_array *d);
 
 
 #endif
