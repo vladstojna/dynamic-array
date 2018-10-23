@@ -16,25 +16,27 @@ typedef struct {
 } dynamic_array;
 
 /* --------------------------------------------------------------------------
- * da_new()   - create dynamic array with size 1
+ * da_new()   - create dynamic array with capacity 1
+ *              does not initialize array with a value
  *
- * da_new_n() - create dynamic array with size N
+ * da_new_n() - create dynamic array with capacity N
+ *              does not initialize array with a value
  *
  * da_free()  - free resources used by the array
  *
  *
- * da_capacity() - array capacity
+ * da_capacity() - array capacity; capacity >= 1
  *
- * da_size()     - number of elements in array
+ * da_size()     - number of elements in array; 0 <= size <= capacity
  *
- * da_first()    - first element
+ * da_first()    - first element; does not check size validity
  *
- * da_last()     - last element
+ * da_last()     - last element; does not check size validity
  *
  *
- * da_get() - get element from index
+ * da_get() - get element from index; checks index validity
  *
- * da_set() - set value to index
+ * da_set() - set value to index; checks index validity
  *
  *
  * da_push_back()  - appends an element to the end
@@ -42,22 +44,27 @@ typedef struct {
  * da_push_front() - appends an element to the start
  *
  * da_pop_back()   - removes and returns last element
+ *                   does not check size validity
  *
  * da_pop_front()  - removes and returns first element
+ *                   does not check size validity
  *
  *
- * da_insert()  - inserts an element to index
+ * da_insert()  - inserts an element to index; checks index validity
  *
  * da_append()  - append buffer to the end
  *
  *
  * da_rm_n() - remove n elements starting at index
  *             does not realloc array
+ *             checks validity of parameters
  *
  * da_rm()   - remove element from index
  *             does not realloc array
+ *             checks validity of parameters
  *
  * da_trim() - reallocs array so that capacity equals size
+ *             realloc'd array capacity >= 1
  *
  * -------------------------------------------------------------------------- */
 
