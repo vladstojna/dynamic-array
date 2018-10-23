@@ -14,21 +14,24 @@
  * __da_reserve() - reservers a new size for the array
  *                  does not check size
  *                  updates capacity and data pointer
- * 
+ *
  * __da_memcpy() - copies buffer to the array starting at index i
  *                 does not check index and array size
- * 
+ *
  * __da_shift_left() - shifts array left amount times starting at start
  *                     does not check indices
- * 
+ *
  * __da_shift_right() - shifts array right amount times starting at start
  *                      does not check indices
+ *
+ * __da_p2_ceil() - calculates lowest next power of 2 after n > 0
  * -------------------------------------------------------------------------- */
 
 static int __da_reserve    (dynamic_array *d, size_t new_size);
 static int __da_memcpy     (dynamic_array *d, int i, const da_data *src, size_t buffsz);
 static int __da_shift_left (dynamic_array *d, int start, int amount);
 static int __da_shift_right(dynamic_array *d, int start, int amount);
+static int __da_p2_ceil    (int n);
 
 /* -------------------------------------------------------------------------- */
 
@@ -71,6 +74,14 @@ inline int __da_shift_right(dynamic_array *d, int start, int amount) {
 		sizeof(da_data) * (d->size - start));
 
 	return EXIT_SUCCESS;
+}
+
+inline int __da_p2_ceil(int n) {
+	int p2 = 2;
+	n--;
+	while (n >>= 1)
+		p2 <<= 1;
+	return p2;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -189,7 +200,7 @@ void da_insert(dynamic_array *d, int i, da_data val) {
 void da_append(dynamic_array *dest, const da_data *src, size_t buffsz) {
 	/* check if there is enough space */
 	if (dest->capacity - dest->size < buffsz)
-		__da_reserve(dest, buffsz + dest->size);
+		__da_reserve(dest, __da_p2_ceil((buffsz + dest->size) / dest->capacity) * dest->capacity);
 	/* copy memory and update size */
 	__da_memcpy(dest, dest->size, src, buffsz);
 	dest->size += buffsz;
