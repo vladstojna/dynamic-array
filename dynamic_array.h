@@ -20,6 +20,7 @@ typedef struct {
  *              does not initialize array with a value
  *
  * da_new_n() - create dynamic array with capacity N
+ *              N should be > 0
  *              does not initialize array with a value
  *
  * da_free()  - free resources used by the array
@@ -56,15 +57,18 @@ typedef struct {
  *
  *
  * da_rm_n() - remove n elements starting at index
- *             does not realloc array
+ *             does not change capacity
  *             checks validity of parameters
  *
  * da_rm()   - remove element from index
- *             does not realloc array
+ *             does not change capacity
  *             checks validity of parameters
  *
- * da_trim() - reallocs array so that capacity equals size
- *             realloc'd array capacity >= 1
+ * da_trim() - reduces array capacity to match size
+ *             new array capacity >= 1
+ *
+ * da_clear() - clears array contents
+ *              does not change capacity
  *
  * -------------------------------------------------------------------------- */
 
@@ -91,7 +95,8 @@ void da_append(dynamic_array *dest, const da_data *src, size_t buffsz);
 void da_rm_n(dynamic_array *d, int i, int n);
 void da_rm  (dynamic_array *d, int i);
 
-void da_trim(dynamic_array *d);
+void da_trim (dynamic_array *d);
+void da_clear(dynamic_array *d);
 
 
 #endif

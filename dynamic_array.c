@@ -237,6 +237,14 @@ void da_rm(dynamic_array *d, int i) {
 
 void da_trim(dynamic_array *d) {
 	/* if not full */
-	if (d->size < d->capacity)
-		__da_reserve(d, d->size);
+	if (d->size < d->capacity) {
+		if (d->size == 0)
+			__da_reserve(d, 1);
+		else
+			__da_reserve(d, d->size);
+	}
+}
+
+void da_clear(dynamic_array *d) {
+	d->size = 0;
 }
