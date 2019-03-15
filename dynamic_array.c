@@ -35,7 +35,7 @@ static int __da_p2_ceil    (int n);
 
 /* -------------------------------------------------------------------------- */
 
-inline int __da_reserve(dynamic_array *d, size_t new_size) {
+int __da_reserve(dynamic_array *d, size_t new_size) {
 	da_data *data_new = (da_data*) realloc((da_data*) d->data, sizeof(da_data)*new_size);
 
 	if (data_new == NULL) {
@@ -51,7 +51,7 @@ inline int __da_reserve(dynamic_array *d, size_t new_size) {
 	return EXIT_SUCCESS;
 }
 
-inline int __da_memcpy(dynamic_array *d, int i, const da_data *src, size_t buffsz) {
+int __da_memcpy(dynamic_array *d, int i, const da_data *src, size_t buffsz) {
 	if (memcpy(&d->data[i], src, sizeof(da_data) * buffsz) == NULL) {
 		da_free(d);
 		fprintf(stderr, "__da_memcpy: memcpy error\n");
@@ -60,23 +60,23 @@ inline int __da_memcpy(dynamic_array *d, int i, const da_data *src, size_t buffs
 	return EXIT_SUCCESS;
 }
 
-inline int __da_shift_left(dynamic_array *d, int start, int amount) {
+int __da_shift_left(dynamic_array *d, int start, int amount) {
 	memmove(&d->data[start],
-		&d->data[start+amount],
-		sizeof(da_data) * (d->size - (start + amount)));
+	        &d->data[start+amount],
+	        sizeof(da_data) * (d->size - (start + amount)));
 
 	return EXIT_SUCCESS;
 }
 
-inline int __da_shift_right(dynamic_array *d, int start, int amount) {
+int __da_shift_right(dynamic_array *d, int start, int amount) {
 	memmove(&d->data[start+amount],
-		&d->data[start],
-		sizeof(da_data) * (d->size - start));
+	        &d->data[start],
+	        sizeof(da_data) * (d->size - start));
 
 	return EXIT_SUCCESS;
 }
 
-inline int __da_p2_ceil(int n) {
+int __da_p2_ceil(int n) {
 	int p2 = 2;
 	n--;
 	while (n >>= 1)
