@@ -8,12 +8,8 @@ typedef char da_data;
 
 /* -------------------------------------------------------------------------- */
 
-/* Dynamic array struct */
-typedef struct {
-	size_t capacity;
-	size_t size;
-	da_data *data;
-} dynamic_array;
+/* Dynamic array type definition */
+typedef struct __dynamic_array dynamic_array;
 
 /* --------------------------------------------------------------------------
  * da_new()   - create dynamic array with capacity 1
@@ -29,6 +25,8 @@ typedef struct {
  * da_capacity() - array capacity; capacity >= 1
  *
  * da_size()     - number of elements in array; 0 <= size <= capacity
+ * 
+ * da_get_data() - return data array
  *
  * da_first()    - first element; does not check size validity
  *
@@ -76,26 +74,29 @@ dynamic_array *da_new  ();
 dynamic_array *da_new_n(size_t sz);
 void           da_free (dynamic_array *d);
 
-size_t  da_capacity(const dynamic_array *d);
-size_t  da_size    (const dynamic_array *d);
+size_t   da_capacity(const dynamic_array *d);
+size_t   da_size    (const dynamic_array *d);
+da_data *da_get_data(const dynamic_array *d);
+
 da_data da_first   (const dynamic_array *d);
 da_data da_last    (const dynamic_array *d);
 
 da_data da_get(const dynamic_array *d, int i);
-void    da_set(dynamic_array *d, int i, da_data val);
+int     da_set(dynamic_array *d, int i, da_data val);
 
-void    da_push_back (dynamic_array *d, da_data val);
-void    da_push_front(dynamic_array *d, da_data val);
+int     da_push_back (dynamic_array *d, da_data val);
+int     da_push_front(dynamic_array *d, da_data val);
 da_data da_pop_back  (dynamic_array *d);
 da_data da_pop_front (dynamic_array *d);
 
-void da_insert(dynamic_array *d, int i, da_data val);
-void da_append(dynamic_array *dest, const da_data *src, size_t buffsz);
+int da_insert(dynamic_array *d, int i, da_data val);
+int da_append(dynamic_array *dest, const da_data *src, size_t buffsz);
 
-void da_rm_n(dynamic_array *d, int i, int n);
-void da_rm  (dynamic_array *d, int i);
+int da_rm_n(dynamic_array *d, int i, int n);
+int da_rm  (dynamic_array *d, int i);
 
-void da_trim (dynamic_array *d);
+int da_trim (dynamic_array *d);
+
 void da_clear(dynamic_array *d);
 
 

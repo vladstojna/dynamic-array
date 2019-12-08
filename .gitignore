@@ -1,0 +1,8 @@
+# Ignore main function
+main.c
+
+# Ignore tests directory
+tests
+
+# Ignore executable
+a.out
