@@ -12,7 +12,7 @@ typedef char da_data;
 typedef struct __dynamic_array dynamic_array;
 
 /* --------------------------------------------------------------------------
- * da_new()   - create dynamic array with capacity 1
+ * da_new()   - create dynamic array with capacity 16
  *              does not initialize array with a value
  *
  * da_new_n() - create dynamic array with capacity N
@@ -67,6 +67,8 @@ typedef struct __dynamic_array dynamic_array;
  *
  * da_clear() - clears array contents
  *              does not change capacity
+ * 
+ * da_sort() - sorts an array using a comparison function
  *
  * -------------------------------------------------------------------------- */
 
@@ -81,23 +83,25 @@ da_data *da_get_data(const dynamic_array *d);
 da_data da_first   (const dynamic_array *d);
 da_data da_last    (const dynamic_array *d);
 
-da_data da_get(const dynamic_array *d, int i);
-int     da_set(dynamic_array *d, int i, da_data val);
+da_data da_get(const dynamic_array *d, size_t i);
+int     da_set(dynamic_array *d, size_t i, da_data val);
 
 int     da_push_back (dynamic_array *d, da_data val);
 int     da_push_front(dynamic_array *d, da_data val);
 da_data da_pop_back  (dynamic_array *d);
 da_data da_pop_front (dynamic_array *d);
 
-int da_insert(dynamic_array *d, int i, da_data val);
+int da_insert(dynamic_array *d, size_t i, da_data val);
 int da_append(dynamic_array *dest, const da_data *src, size_t buffsz);
 
-int da_rm_n(dynamic_array *d, int i, int n);
-int da_rm  (dynamic_array *d, int i);
+int da_rm_n(dynamic_array *d, size_t i, size_t n);
+int da_rm  (dynamic_array *d, size_t i);
 
 int da_trim (dynamic_array *d);
 
 void da_clear(dynamic_array *d);
+
+void da_sort(dynamic_array *d, int (*compar)(const void *, const void *));
 
 
 #endif
